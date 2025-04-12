@@ -1,12 +1,19 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import userRoutes from '../routes/userRoutes';
 
 const app = express();
 const port = 3000;
 
-app.get('/', (req: Request, res: Response) => {
- res.send('Hello, Express + TypeScript!');
+app.use(express.json());
+
+// Root route
+app.get('/', (req, res) => {
+ res.send('Hello from Firebase + Express!');
 });
 
+// API routes
+app.use('/api', userRoutes);
+
 app.listen(port, () => {
- console.log(`Server is running on http://localhost:${port}`);
+ console.log(`🚀 Server running at http://localhost:${port}`);
 });
