@@ -1,8 +1,11 @@
 import express from 'express';
-import { getUsers } from '../controller/api';
+import { authMiddleware } from '../middleware/authMiddleWare';
+import { getUsers, updateUserData } from '../controller/userController';
 
 const router = express.Router();
-router.get('/users', getUsers);
+// GET: Fetch users
 
+router.get('/users', authMiddleware, getUsers);
+router.post('/users', authMiddleware, updateUserData);
 
 export default router;
