@@ -7,7 +7,6 @@ if (!getApps().length) {
  initializeApp(fbConfig);
 }
 
-// Controller to handle email/password login
 export const loginWithEmail = async (
  req: Request,
  res: Response
@@ -19,11 +18,9 @@ export const loginWithEmail = async (
  }
 
  try {
-  // Authenticate the user with Firebase Authentication
   const auth = getAuth();
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-  // Get the ID token from the authenticated user
   const idToken = await userCredential.user.getIdToken();
 
   const response = await fetch('http://localhost:3000/api/users', {
@@ -41,7 +38,6 @@ export const loginWithEmail = async (
     userData = JSON.parse(text);
    } catch (parseErr) {
     console.error('Failed to parse JSON:', parseErr);
-    // return res.status(500).json({ error: 'Invalid JSON returned from /api/users' });
    }
   } else {
    console.warn('Empty response from /api/users');
@@ -50,7 +46,6 @@ export const loginWithEmail = async (
   res.status(200).json({ idToken, user: userData });
 
  } catch (error) {
-  // Handle any errors (e.g., invalid credentials, user not found)
   if (error instanceof Error) {
    console.error('Error logging in:', error.message);
    res.status(401).json({ error: error.message });
